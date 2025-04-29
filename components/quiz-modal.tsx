@@ -47,18 +47,22 @@ export function QuizModal({ onComplete }: QuizModalProps) {
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <Card className="w-full max-w-md backdrop-blur-sm bg-white/80 border border-white/50">
         <CardHeader>
-          <CardTitle>Daily Quiz</CardTitle>
-          <CardDescription>Answer correctly to mark your attendance for today</CardDescription>
+          <CardTitle className="text-gray-800">Daily Quiz</CardTitle>
+          <CardDescription className="text-gray-700">
+            Answer correctly to mark your attendance for today
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <div className="font-medium">{selectedQuestion.question}</div>
+            <div className="font-medium text-gray-800">{selectedQuestion.question}</div>
 
             <RadioGroup value={selectedAnswer || ""} onValueChange={setSelectedAnswer} disabled={isSubmitted}>
               {selectedQuestion.options.map((option, index) => (
                 <div key={index} className="flex items-center space-x-2">
                   <RadioGroupItem value={option} id={`option-${index}`} disabled={isSubmitted} />
-                  <Label htmlFor={`option-${index}`}>{option}</Label>
+                  <Label htmlFor={`option-${index}`} className="text-gray-800">
+                    {option}
+                  </Label>
                 </div>
               ))}
             </RadioGroup>
@@ -78,7 +82,7 @@ export function QuizModal({ onComplete }: QuizModalProps) {
         </CardContent>
         <CardFooter className="flex justify-between">
           <Button variant="outline" onClick={() => onComplete(false)} className="bg-white/50 border-white/50">
-            Cancel
+            <span className="text-gray-800">Cancel</span>
           </Button>
           <Button
             onClick={handleSubmit}

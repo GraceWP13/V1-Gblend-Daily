@@ -25,6 +25,12 @@ export default function ClaimPage() {
   const [checkingBalance, setCheckingBalance] = useState(false)
   const [showManualMint, setShowManualMint] = useState(false)
 
+  // Get today's date in UTC format YYYY-MM-DD
+  const getTodayUTC = () => {
+    const now = new Date()
+    return `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, "0")}-${String(now.getUTCDate()).padStart(2, "0")}`
+  }
+
   useEffect(() => {
     if (!isConnected) {
       router.push("/")
@@ -118,7 +124,7 @@ export default function ClaimPage() {
       <div className="min-h-screen flex flex-col">
         <Header />
         <div className="flex-1 container flex items-center justify-center">
-          <div className="animate-pulse">Loading...</div>
+          <div className="animate-pulse text-gray-800">Loading...</div>
         </div>
         <Footer />
       </div>
@@ -141,14 +147,16 @@ export default function ClaimPage() {
 
         <Card className="w-full max-w-md backdrop-blur-sm bg-white/40 border border-white/50">
           <CardHeader>
-            <CardTitle>Claim Your Gblend NFT</CardTitle>
-            <CardDescription>You need to claim the Gblend NFT to access the attendance calendar</CardDescription>
+            <CardTitle className="text-gray-800">Claim Your Gblend NFT</CardTitle>
+            <CardDescription className="text-gray-700">
+              You need to claim the Gblend NFT to access the attendance calendar
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {hasRequiredNFT ? (
               <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
                 <h3 className="font-medium text-green-600 dark:text-green-400">NFT Already Claimed!</h3>
-                <p className="text-sm mt-1">Redirecting to attendance page...</p>
+                <p className="text-sm mt-1 text-gray-800">Redirecting to attendance page...</p>
               </div>
             ) : (
               <div className="text-center space-y-4">
@@ -164,20 +172,26 @@ export default function ClaimPage() {
                   />
                 </div>
                 <div>
-                  <h3 className="font-medium">Gblend Attendance NFT</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
+                  <h3 className="font-medium text-gray-800">Gblend Attendance NFT</h3>
+                  <p className="text-sm text-gray-700 mt-1">
                     This NFT grants you access to the daily attendance system
                   </p>
                 </div>
               </div>
             )}
 
-            <div className="flex items-center justify-between p-3 bg-muted rounded-md">
+            <div className="flex items-center justify-between p-3 bg-white/60 backdrop-blur-sm rounded-md border border-white/50">
               <div>
-                <p className="text-sm font-medium">Your Balance:</p>
+                <p className="text-sm font-medium text-gray-800">Your Balance:</p>
                 <p className={`text-sm ${hasBalance ? "text-green-600" : "text-red-600"}`}>{balance} ETH</p>
               </div>
-              <Button variant="outline" size="sm" onClick={handleRefreshBalance} disabled={checkingBalance}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleRefreshBalance}
+                disabled={checkingBalance}
+                className="bg-white/50 border-white/50"
+              >
                 {checkingBalance ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
                 <span className="sr-only">Refresh balance</span>
               </Button>
@@ -211,8 +225,8 @@ export default function ClaimPage() {
             )}
 
             {txHash && (
-              <div className="text-sm p-3 bg-muted rounded-md">
-                <p className="font-medium">Transaction submitted:</p>
+              <div className="text-sm p-3 bg-white/60 backdrop-blur-sm rounded-md border border-white/50">
+                <p className="font-medium text-gray-800">Transaction submitted:</p>
                 <a
                   href={`https://explorer.dev.gblend.xyz/tx/${txHash}`}
                   target="_blank"

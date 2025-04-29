@@ -54,8 +54,10 @@ export function WalletConnect() {
     <>
       <Card className="w-full backdrop-blur-sm bg-white/40 border border-white/50">
         <CardHeader>
-          <CardTitle>Connect Your Wallet</CardTitle>
-          <CardDescription>Connect your wallet to access the Gblend Daily Attendance app</CardDescription>
+          <CardTitle className="text-gray-800">Connect Your Wallet</CardTitle>
+          <CardDescription className="text-gray-700">
+            Connect your wallet to access the Gblend Daily Attendance app
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {isConnected ? (
@@ -67,8 +69,8 @@ export function WalletConnect() {
                       <Wallet className="h-4 w-4 text-white" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium">Connected Wallet</p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-sm font-medium text-gray-800">Connected Wallet</p>
+                      <p className="text-xs text-gray-700">
                         {address?.slice(0, 6)}...{address?.slice(-4)}
                       </p>
                     </div>
@@ -79,7 +81,7 @@ export function WalletConnect() {
                     onClick={handleDisconnect}
                     className="bg-white/70 border-white/50"
                   >
-                    Disconnect
+                    <span className="text-gray-800">Disconnect</span>
                   </Button>
                 </div>
               </div>
@@ -94,7 +96,7 @@ export function WalletConnect() {
                     className="w-full border-amber-200 bg-white/50"
                     onClick={switchNetwork}
                   >
-                    Switch to Fluent Devnet
+                    <span className="text-amber-800">Switch to Fluent Devnet</span>
                   </Button>
                 </div>
               )}
@@ -102,7 +104,7 @@ export function WalletConnect() {
               {isCorrectNetwork && (
                 <div className="space-y-4">
                   <div className="p-3 bg-white/60 backdrop-blur-sm rounded-md border border-white/50">
-                    <p className="text-sm font-medium">Your Balance:</p>
+                    <p className="text-sm font-medium text-gray-800">Your Balance:</p>
                     <p className={`text-sm ${hasBalance ? "text-green-600" : "text-red-600"}`}>{balance} ETH</p>
                     {!hasBalance && (
                       <p className="text-xs text-red-500 mt-1">
@@ -115,7 +117,7 @@ export function WalletConnect() {
                     {checkingNFT ? (
                       <div className="flex items-center justify-center space-x-2">
                         <Loader2 className="h-4 w-4 animate-spin" />
-                        <span className="text-sm">Checking NFT status...</span>
+                        <span className="text-sm text-gray-800">Checking NFT status...</span>
                       </div>
                     ) : (
                       <Button
@@ -135,8 +137,8 @@ export function WalletConnect() {
                 <div className="w-16 h-16 mx-auto bg-gradient-to-r from-purple-400 to-blue-500 rounded-full flex items-center justify-center mb-4">
                   <Wallet className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-lg font-medium">Connect Your Wallet</h3>
-                <p className="text-sm text-muted-foreground mt-1 mb-4">
+                <h3 className="text-lg font-medium text-gray-800">Connect Your Wallet</h3>
+                <p className="text-sm text-gray-700 mt-1 mb-4">
                   Connect your wallet to access the Gblend Daily Attendance app
                 </p>
                 <Button
@@ -147,7 +149,7 @@ export function WalletConnect() {
                 </Button>
               </div>
 
-              <div className="text-xs text-center text-muted-foreground">
+              <div className="text-xs text-center text-gray-700">
                 <p>
                   Don't have a wallet?{" "}
                   <a
@@ -166,8 +168,8 @@ export function WalletConnect() {
       </Card>
 
       <div className="mt-8 p-6 bg-white/30 backdrop-blur-sm rounded-lg border border-white/50">
-        <h3 className="text-lg font-medium mb-4">How it works:</h3>
-        <ol className="list-decimal list-inside space-y-3 text-sm">
+        <h3 className="text-lg font-medium mb-4 text-gray-800">How it works:</h3>
+        <ol className="list-decimal list-inside space-y-3 text-sm text-gray-800">
           <li>Connect your wallet</li>
           <li className="font-medium text-blue-600 dark:text-blue-400">
             Claim faucet at{" "}

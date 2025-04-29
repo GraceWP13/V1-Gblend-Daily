@@ -10,9 +10,24 @@ interface CalendarProps {
 }
 
 export function Calendar({ address }: CalendarProps) {
-  const [currentDate, setCurrentDate] = useState(new Date())
+  const [currentDate, setCurrentDate] = useState(() => {
+    // Initialize with current UTC date
+    const now = new Date()
+    return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))
+  })
   const [attendanceDays, setAttendanceDays] = useState<string[]>([])
   const [loading, setLoading] = useState(true)
+
+  // Get today's date in UTC
+  const getTodayUTC = () => {
+    const now = new Date()
+    return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))
+  }
+
+  // Format date to YYYY-MM-DD in UTC
+  const formatDateUTC = (date: Date) => {
+    return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}-${String(date.getUTCDate()).padStart(2, "0")}`
+  }
 
   // Load attendance data whenever the address changes
   useEffect(() => {
@@ -44,17 +59,17 @@ export function Calendar({ address }: CalendarProps) {
   }, [address])
 
   const getDaysInMonth = (year: number, month: number) => {
-    return new Date(year, month + 1, 0).getDate()
+    return new Date(Date.UTC(year, month + 1, 0)).getUTCDate()
   }
 
   const getFirstDayOfMonth = (year: number, month: number) => {
-    return new Date(year, month, 1).getDay()
+    return new Date(Date.UTC(year, month, 1)).getUTCDay()
   }
 
   const handlePrevMonth = () => {
     setCurrentDate((prev) => {
       const prevMonth = new Date(prev)
-      prevMonth.setMonth(prev.getMonth() - 1)
+      prevMonth.setUTCMonth(prev.getUTCMonth() - 1)
       return prevMonth
     })
   }
@@ -62,14 +77,14 @@ export function Calendar({ address }: CalendarProps) {
   const handleNextMonth = () => {
     setCurrentDate((prev) => {
       const nextMonth = new Date(prev)
-      nextMonth.setMonth(prev.getMonth() + 1)
+      nextMonth.setUTCMonth(prev.getUTCMonth() + 1)
       return nextMonth
     })
   }
 
   const renderCalendar = () => {
-    const year = currentDate.getFullYear()
-    const month = currentDate.getMonth()
+    const year = currentDate.getUTCFullYear()
+    const month = currentDate.getUTCMonth()
     const daysInMonth = getDaysInMonth(year, month)
     const firstDay = getFirstDayOfMonth(year, month)
 
@@ -82,10 +97,10 @@ export function Calendar({ address }: CalendarProps) {
 
     // Add cells for each day of the month
     for (let day = 1; day <= daysInMonth; day++) {
-      const date = new Date(year, month, day)
-      const dateString = date.toISOString().split("T")[0]
+      const date = new Date(Date.UTC(year, month, day))
+      const dateString = formatDateUTC(date)
       const isMarked = attendanceDays.includes(dateString)
-      const isToday = new Date().toISOString().split("T")[0] === dateString
+      const isToday = formatDateUTC(getTodayUTC()) === dateString
 
       days.push(
         <div
@@ -96,7 +111,7 @@ export function Calendar({ address }: CalendarProps) {
             isMarked ? "bg-purple-50/50 backdrop-blur-sm dark:bg-purple-900/20" : "",
           )}
         >
-          <span className={cn("text-sm", isToday ? "font-bold" : "")}>{day}</span>
+          <span className={cn("text-sm font-medium text-gray-800", isToday ? "font-bold" : "")}>{day}</span>
           {isMarked && (
             <div className="absolute bottom-1 right-1">
               <span className="text-sm">🎨</span>
@@ -131,8 +146,8 @@ export function Calendar({ address }: CalendarProps) {
           <ChevronLeft className="h-4 w-4" />
           <span className="sr-only">Previous month</span>
         </Button>
-        <h2 className="text-xl font-semibold">
-          {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
+        <h2 className="text-xl font-semibold text-gray-800">
+          {monthNames[currentDate.getUTCMonth()]} {currentDate.getUTCFullYear()} (UTC)
         </h2>
         <Button variant="outline" size="icon" onClick={handleNextMonth} className="bg-white/50 border-white/50">
           <ChevronRight className="h-4 w-4" />
@@ -142,20 +157,20 @@ export function Calendar({ address }: CalendarProps) {
 
       <div className="grid grid-cols-7 gap-2 mb-2">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-          <div key={day} className="text-center text-sm font-medium text-muted-foreground">
+          <div key={day} className="text-center text-sm font-medium text-gray-700">
             {day}
           </div>
         ))}
       </div>
 
       {loading ? (
-        <div className="py-8 text-center text-muted-foreground">Loading your attendance history...</div>
+        <div className="py-8 text-center text-gray-700">Loading your attendance history...</div>
       ) : (
         <div className="grid grid-cols-7 gap-2">{renderCalendar()}</div>
       )}
 
       {attendanceDays.length > 0 && (
-        <div className="mt-4 text-center text-sm text-muted-foreground">
+        <div className="mt-4 text-center text-sm text-gray-700">
           You have marked your attendance on {attendanceDays.length} day{attendanceDays.length !== 1 ? "s" : ""}.
         </div>
       )}

@@ -16,7 +16,9 @@ export function Header() {
         </div>
         <nav className="flex items-center gap-4">
           <Link href="/attendance" passHref>
-            <Button variant="ghost">Calendar</Button>
+            <Button variant="ghost" className="text-gray-800 hover:text-gray-900 hover:bg-white/50">
+              Calendar
+            </Button>
           </Link>
           <WalletStatus />
         </nav>

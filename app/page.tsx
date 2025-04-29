@@ -12,7 +12,7 @@ export default function Home() {
           <h1 className="text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
             Gblend Daily Attendance 🎨
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-gray-800">
             Connect your wallet, claim your NFT, and mark your daily attendance to show your loyalty to Fluent.
           </p>
           <SocialLinks />

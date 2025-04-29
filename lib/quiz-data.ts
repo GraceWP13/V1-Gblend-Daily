@@ -33,4 +33,17 @@ export const quizQuestions: QuizQuestion[] = [
     options: ["a16z and Google", "Coinbase and Binance", "Polychain Capital, dao5, Symbolic Capital"],
     correctAnswer: "Polychain Capital, dao5, Symbolic Capital",
   },
+  {
+    question: "Who are the co-founders of Fluent?",
+    options: ["Dmitry Savonin and Blendino", "Vitalik Buterin and Anatoly Yakovenko", "Brian Armstrong and CZ"],
+    correctAnswer: "Dmitry Savonin and Blendino",
+  },
+  {
+    question: "What is rWasm?",
+    options: [
+      "The core of Fluent Virtual Machine which supports a blended execution enviroment for multiple VMs.",
+      "The platform that is used as a p2p exchange.",
+    ],
+    correctAnswer: "The core of Fluent Virtual Machine which supports a blended execution enviroment for multiple VMs.",
+  },
 ]

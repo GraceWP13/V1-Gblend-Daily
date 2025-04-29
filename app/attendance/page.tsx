@@ -18,6 +18,12 @@ export default function AttendancePage() {
   const [loading, setLoading] = useState(true)
   const [showQuiz, setShowQuiz] = useState(false)
 
+  // Get today's date in UTC format YYYY-MM-DD
+  const getTodayUTC = () => {
+    const now = new Date()
+    return `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, "0")}-${String(now.getUTCDate()).padStart(2, "0")}`
+  }
+
   useEffect(() => {
     if (!isConnected) {
       router.push("/")
@@ -44,7 +50,7 @@ export default function AttendancePage() {
   useEffect(() => {
     if (!address) return
 
-    const today = new Date().toISOString().split("T")[0]
+    const today = getTodayUTC()
     const lastMarked = localStorage.getItem(`gblend-attendance-${address}-last-marked`)
     const todayMarked = localStorage.getItem(`gblend-attendance-${address}-${today}`)
 
@@ -56,7 +62,7 @@ export default function AttendancePage() {
       <div className="min-h-screen flex flex-col">
         <Header />
         <div className="flex-1 container flex items-center justify-center">
-          <div className="animate-pulse">Loading...</div>
+          <div className="animate-pulse text-gray-800">Loading...</div>
         </div>
         <Footer />
       </div>
@@ -75,7 +81,7 @@ export default function AttendancePage() {
   const handleQuizComplete = (success: boolean) => {
     setShowQuiz(false)
     if (success) {
-      const today = new Date().toISOString().split("T")[0]
+      const today = getTodayUTC()
       localStorage.setItem(`gblend-attendance-${address}-${today}`, "true")
       localStorage.setItem(`gblend-attendance-${address}-last-marked`, today)
       setCanMarkToday(false)
@@ -93,7 +99,7 @@ export default function AttendancePage() {
           <h1 className="text-3xl font-bold tracking-tight mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
             Gblend Attendance 🎨
           </h1>
-          <p className="text-muted-foreground">Mark your attendance daily to show your loyalty to Fluent</p>
+          <p className="text-gray-800">Mark your attendance daily to show your loyalty to Fluent</p>
         </div>
 
         <SocialLinks />

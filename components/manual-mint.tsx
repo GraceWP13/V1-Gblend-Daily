@@ -18,19 +18,19 @@ export function ManualMint() {
   return (
     <Card className="mt-6 backdrop-blur-sm bg-white/40 border border-white/50">
       <CardHeader>
-        <CardTitle>Having trouble minting?</CardTitle>
-        <CardDescription>Try these alternative methods</CardDescription>
+        <CardTitle className="text-gray-800">Having trouble minting?</CardTitle>
+        <CardDescription className="text-gray-700">Try these alternative methods</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <p className="text-sm">
+          <p className="text-sm text-gray-800">
             If the automatic minting isn't working, you can try interacting with the contract directly:
           </p>
 
-          <div className="p-3 bg-muted rounded-md flex items-center justify-between">
+          <div className="p-3 bg-white/60 backdrop-blur-sm rounded-md flex items-center justify-between border border-white/50">
             <div className="overflow-hidden">
-              <p className="text-xs font-medium">Contract Address:</p>
-              <p className="text-xs break-all">{NFT_CONTRACT_ADDRESS}</p>
+              <p className="text-xs font-medium text-gray-800">Contract Address:</p>
+              <p className="text-xs break-all text-gray-700">{NFT_CONTRACT_ADDRESS}</p>
             </div>
             <Button variant="ghost" size="sm" onClick={handleCopyAddress}>
               {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
@@ -46,11 +46,11 @@ export function ManualMint() {
             rel="noopener noreferrer"
             className="w-full"
           >
-            <Button variant="outline" className="w-full">
-              View Contract in Explorer <ExternalLink className="ml-2 h-4 w-4" />
+            <Button variant="outline" className="w-full bg-white/50 border-white/50">
+              <span className="text-gray-800">View Contract in Explorer</span> <ExternalLink className="ml-2 h-4 w-4" />
             </Button>
           </a>
-          <p className="text-xs text-center text-muted-foreground">
+          <p className="text-xs text-center text-gray-700">
             In the explorer, connect your wallet and try calling the contract's mint function directly
           </p>
         </div>
