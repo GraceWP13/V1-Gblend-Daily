@@ -21,11 +21,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
-        {/* Aurora-like background with multiple layers for depth */}
-        <div className="fixed inset-0 bg-gradient-to-br from-purple-200 via-pink-100 to-blue-200 z-0"></div>
-        <div className="fixed inset-0 bg-gradient-to-tr from-transparent via-purple-300/30 to-blue-300/30 z-0"></div>
-        <div className="fixed inset-0 bg-[url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/360_F_1076259957_a82ZDqRzC85S5ADSE0l8fZwQ6AJCCBl5.jpg-bdn2eysC91Y7zB5DwPYAAvx7e0gq25.jpeg')] bg-cover bg-center opacity-60 mix-blend-soft-light pointer-events-none z-0"></div>
-        <div className="fixed inset-0 bg-gradient-to-b from-transparent via-transparent to-purple-100/30 z-0"></div>
+        {/* Purple gradient background */}
+        <div
+          className="fixed inset-0 bg-cover bg-center z-0"
+          style={{
+            backgroundImage: "url('/images/background-dark-aurora.png')",
+          }}
+        />
+        {/* Simple overlay for better text visibility */}
+        <div className="fixed inset-0 bg-black/10 z-0" />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <Web3Provider>{children}</Web3Provider>
         </ThemeProvider>

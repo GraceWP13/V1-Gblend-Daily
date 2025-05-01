@@ -124,7 +124,9 @@ export default function ClaimPage() {
       <div className="min-h-screen flex flex-col">
         <Header />
         <div className="flex-1 container flex items-center justify-center">
-          <div className="animate-pulse text-gray-800">Loading...</div>
+          <div className="animate-pulse text-amber-950 font-bold bg-white/70 px-4 py-2 rounded-md shadow-md">
+            Loading...
+          </div>
         </div>
         <Footer />
       </div>
@@ -137,30 +139,30 @@ export default function ClaimPage() {
     <div className="min-h-screen flex flex-col">
       <Header />
       <div className="flex-1 container max-w-5xl mx-auto px-4 py-8 flex flex-col items-center">
-        <div className="text-center mb-4">
-          <h1 className="text-3xl font-bold tracking-tight mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
+        <div className="text-center mb-4 bg-white/70 backdrop-blur-md p-4 rounded-lg border border-amber-200 shadow-md">
+          <h1 className="text-3xl font-bold tracking-tight mb-2 text-amber-950 text-shadow-sm">
             Claim Your Gblend NFT
           </h1>
         </div>
 
         <SocialLinks />
 
-        <Card className="w-full max-w-md backdrop-blur-sm bg-white/40 border border-white/50">
-          <CardHeader>
-            <CardTitle className="text-gray-800">Claim Your Gblend NFT</CardTitle>
-            <CardDescription className="text-gray-700">
+        <Card className="w-full max-w-md backdrop-blur-md bg-white/90 border border-amber-200 shadow-lg">
+          <CardHeader className="bg-amber-50/90 border-b border-amber-200">
+            <CardTitle className="text-amber-950 font-bold">Claim Your Gblend NFT</CardTitle>
+            <CardDescription className="text-amber-800 font-medium">
               You need to claim the Gblend NFT to access the attendance calendar
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pt-4">
             {hasRequiredNFT ? (
-              <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                <h3 className="font-medium text-green-600 dark:text-green-400">NFT Already Claimed!</h3>
-                <p className="text-sm mt-1 text-gray-800">Redirecting to attendance page...</p>
+              <div className="text-center p-4 bg-green-100/90 rounded-lg border border-green-300 shadow-sm">
+                <h3 className="font-bold text-green-800">NFT Already Claimed!</h3>
+                <p className="text-sm mt-1 text-amber-800 font-medium">Redirecting to attendance page...</p>
               </div>
             ) : (
               <div className="text-center space-y-4">
-                <div className="w-64 h-64 mx-auto rounded-lg overflow-hidden relative">
+                <div className="w-64 h-64 mx-auto rounded-lg overflow-hidden relative shadow-md">
                   <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{ backgroundImage: "url('/images/aurora-bg.jpeg')" }}
@@ -171,26 +173,26 @@ export default function ClaimPage() {
                     className="relative z-10 w-full h-full object-contain"
                   />
                 </div>
-                <div>
-                  <h3 className="font-medium text-gray-800">Gblend Attendance NFT</h3>
-                  <p className="text-sm text-gray-700 mt-1">
+                <div className="bg-amber-50/90 p-3 rounded-md border border-amber-200">
+                  <h3 className="font-bold text-amber-950">Gblend Attendance NFT</h3>
+                  <p className="text-sm text-amber-800 font-medium mt-1">
                     This NFT grants you access to the daily attendance system
                   </p>
                 </div>
               </div>
             )}
 
-            <div className="flex items-center justify-between p-3 bg-white/60 backdrop-blur-sm rounded-md border border-white/50">
+            <div className="flex items-center justify-between p-3 bg-amber-50/90 backdrop-blur-sm rounded-md border border-amber-200 shadow-sm">
               <div>
-                <p className="text-sm font-medium text-gray-800">Your Balance:</p>
-                <p className={`text-sm ${hasBalance ? "text-green-600" : "text-red-600"}`}>{balance} ETH</p>
+                <p className="text-sm font-bold text-amber-950">Your Balance:</p>
+                <p className={`text-sm font-medium ${hasBalance ? "text-green-700" : "text-red-700"}`}>{balance} ETH</p>
               </div>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handleRefreshBalance}
                 disabled={checkingBalance}
-                className="bg-white/50 border-white/50"
+                className="bg-amber-100/90 border-amber-300 text-amber-950 hover:bg-amber-200/90 shadow-sm"
               >
                 {checkingBalance ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
                 <span className="sr-only">Refresh balance</span>
@@ -198,16 +200,16 @@ export default function ClaimPage() {
             </div>
 
             {!hasBalance && (
-              <Alert variant="destructive">
+              <Alert variant="destructive" className="bg-red-100/90 border-red-300 text-red-800 font-medium shadow-sm">
                 <AlertCircle className="h-4 w-4" />
-                <AlertTitle>No tokens detected</AlertTitle>
+                <AlertTitle className="font-bold">No tokens detected</AlertTitle>
                 <AlertDescription>
                   You need tokens to pay for gas fees. Please get tokens from the{" "}
                   <a
                     href="https://faucet.dev.gblend.xyz/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-medium underline"
+                    className="font-bold underline text-blue-700"
                   >
                     Fluent faucet
                   </a>{" "}
@@ -217,32 +219,32 @@ export default function ClaimPage() {
             )}
 
             {error && (
-              <Alert variant="destructive">
+              <Alert variant="destructive" className="bg-red-100/90 border-red-300 text-red-800 font-medium shadow-sm">
                 <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Error</AlertTitle>
+                <AlertTitle className="font-bold">Error</AlertTitle>
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
 
             {txHash && (
-              <div className="text-sm p-3 bg-white/60 backdrop-blur-sm rounded-md border border-white/50">
-                <p className="font-medium text-gray-800">Transaction submitted:</p>
+              <div className="text-sm p-3 bg-amber-50/90 backdrop-blur-sm rounded-md border border-amber-200 shadow-sm">
+                <p className="font-bold text-amber-950">Transaction submitted:</p>
                 <a
                   href={`https://explorer.dev.gblend.xyz/tx/${txHash}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-500 hover:underline break-all"
+                  className="text-blue-700 font-medium hover:underline break-all"
                 >
                   {txHash}
                 </a>
               </div>
             )}
           </CardContent>
-          <CardFooter className="flex flex-col space-y-4">
+          <CardFooter className="flex flex-col space-y-4 bg-amber-50/90 border-t border-amber-200">
             {!hasRequiredNFT && (
               <>
                 <Button
-                  className="w-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600"
+                  className="w-full bg-gradient-to-r from-amber-600 to-blue-600 hover:from-amber-700 hover:to-blue-700 text-white font-bold shadow-md text-shadow-sm"
                   onClick={handleClaim}
                   disabled={claiming || !hasBalance}
                 >
@@ -261,7 +263,7 @@ export default function ClaimPage() {
                     href="https://faucet.dev.gblend.xyz/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-center text-blue-500 hover:underline inline-flex items-center justify-center w-full"
+                    className="text-sm text-center text-blue-700 font-bold hover:underline inline-flex items-center justify-center w-full"
                   >
                     Need tokens? Get them from the Fluent faucet <ExternalLink className="h-3 w-3 ml-1" />
                   </a>

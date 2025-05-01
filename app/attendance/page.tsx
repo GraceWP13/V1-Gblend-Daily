@@ -6,6 +6,7 @@ import { useAccount } from "@/hooks/use-account"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Calendar } from "@/components/calendar"
+import { Dashboard } from "@/components/dashboard"
 import { QuizModal } from "@/components/quiz-modal"
 import { Button } from "@/components/ui/button"
 import { SocialLinks } from "@/components/social-links"
@@ -62,7 +63,9 @@ export default function AttendancePage() {
       <div className="min-h-screen flex flex-col">
         <Header />
         <div className="flex-1 container flex items-center justify-center">
-          <div className="animate-pulse text-gray-800">Loading...</div>
+          <div className="animate-pulse text-white font-bold bg-purple-900/50 px-4 py-2 rounded-md shadow-md">
+            Loading...
+          </div>
         </div>
         <Footer />
       </div>
@@ -95,14 +98,15 @@ export default function AttendancePage() {
     <div className="min-h-screen flex flex-col relative z-10">
       <Header />
       <div className="flex-1 container max-w-5xl mx-auto px-4 py-8">
-        <div className="text-center mb-4">
-          <h1 className="text-3xl font-bold tracking-tight mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-            Gblend Attendance 🎨
-          </h1>
-          <p className="text-gray-800">Mark your attendance daily to show your loyalty to Fluent</p>
+        <div className="text-center mb-4 bg-purple-900/50 backdrop-blur-md p-4 rounded-lg border border-purple-400/30 shadow-md">
+          <h1 className="text-3xl font-bold tracking-tight mb-2 text-white">Gblend Attendance 🎨</h1>
+          <p className="text-white font-medium">Mark your attendance daily to show your loyalty to Fluent</p>
         </div>
 
         <SocialLinks />
+
+        {/* Dashboard Section */}
+        <Dashboard address={address} />
 
         <Calendar address={address} />
 
@@ -111,12 +115,12 @@ export default function AttendancePage() {
             <Button
               size="lg"
               onClick={handleMarkAttendance}
-              className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold shadow-lg"
             >
               Mark Today's Attendance
             </Button>
           ) : (
-            <Button size="lg" disabled>
+            <Button size="lg" disabled className="bg-purple-400/60 text-white font-bold cursor-not-allowed shadow-md">
               Already Marked Today
             </Button>
           )}

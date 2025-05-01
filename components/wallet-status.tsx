@@ -9,7 +9,12 @@ export function WalletStatus() {
 
   if (!isConnected) {
     return (
-      <Button variant="outline" size="sm" onClick={connect}>
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={connect}
+        className="border-purple-400/50 bg-purple-800/70 text-white hover:bg-purple-700/80"
+      >
         <Wallet className="mr-2 h-4 w-4" />
         Connect
       </Button>
@@ -17,7 +22,12 @@ export function WalletStatus() {
   }
 
   return (
-    <Button variant="outline" size="sm" onClick={disconnect}>
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={disconnect}
+      className="border-purple-400/50 bg-purple-800/70 text-white hover:bg-purple-700/80"
+    >
       <Wallet className="mr-2 h-4 w-4" />
       {address?.slice(0, 6)}...{address?.slice(-4)}
     </Button>

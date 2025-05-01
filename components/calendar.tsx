@@ -107,11 +107,15 @@ export function Calendar({ address }: CalendarProps) {
           key={day}
           className={cn(
             "h-12 border rounded-md flex items-center justify-center relative",
-            isToday ? "border-blue-500" : "border-gray-200 dark:border-gray-800",
-            isMarked ? "bg-purple-50/50 backdrop-blur-sm dark:bg-purple-900/20" : "",
+            isToday ? "border-pink-500 shadow-md" : "border-purple-300/50",
+            isMarked ? "bg-gradient-to-r from-purple-600 to-pink-600 backdrop-blur-sm" : "bg-white/20 backdrop-blur-sm",
           )}
         >
-          <span className={cn("text-sm font-medium text-gray-800", isToday ? "font-bold" : "")}>{day}</span>
+          <span
+            className={cn("text-sm font-bold", isMarked ? "text-white" : "text-white", isToday ? "text-white" : "")}
+          >
+            {day}
+          </span>
           {isMarked && (
             <div className="absolute bottom-1 right-1">
               <span className="text-sm">🎨</span>
@@ -140,38 +144,49 @@ export function Calendar({ address }: CalendarProps) {
   ]
 
   return (
-    <div className="border rounded-lg p-4 bg-white/40 backdrop-blur-sm border-white/50">
-      <div className="flex items-center justify-between mb-4">
-        <Button variant="outline" size="icon" onClick={handlePrevMonth} className="bg-white/50 border-white/50">
+    <div className="border rounded-lg p-4 bg-white/10 backdrop-blur-md border-purple-300/50 shadow-lg">
+      <div className="flex items-center justify-between mb-4 bg-purple-900/50 p-2 rounded-md border border-purple-400/30">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={handlePrevMonth}
+          className="bg-white/20 border-white/30 text-white hover:bg-white/30 shadow-sm"
+        >
           <ChevronLeft className="h-4 w-4" />
           <span className="sr-only">Previous month</span>
         </Button>
-        <h2 className="text-xl font-semibold text-gray-800">
+        <h2 className="text-xl font-bold text-white">
           {monthNames[currentDate.getUTCMonth()]} {currentDate.getUTCFullYear()} (UTC)
         </h2>
-        <Button variant="outline" size="icon" onClick={handleNextMonth} className="bg-white/50 border-white/50">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={handleNextMonth}
+          className="bg-white/20 border-white/30 text-white hover:bg-white/30 shadow-sm"
+        >
           <ChevronRight className="h-4 w-4" />
           <span className="sr-only">Next month</span>
         </Button>
       </div>
 
-      <div className="grid grid-cols-7 gap-2 mb-2">
+      <div className="grid grid-cols-7 gap-2 mb-2 bg-purple-900/50 p-2 rounded-md border border-purple-400/30">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-          <div key={day} className="text-center text-sm font-medium text-gray-700">
+          <div key={day} className="text-center text-sm font-bold text-white">
             {day}
           </div>
         ))}
       </div>
 
       {loading ? (
-        <div className="py-8 text-center text-gray-700">Loading your attendance history...</div>
+        <div className="py-8 text-center text-white font-bold">Loading your attendance history...</div>
       ) : (
         <div className="grid grid-cols-7 gap-2">{renderCalendar()}</div>
       )}
 
       {attendanceDays.length > 0 && (
-        <div className="mt-4 text-center text-sm text-gray-700">
-          You have marked your attendance on {attendanceDays.length} day{attendanceDays.length !== 1 ? "s" : ""}.
+        <div className="mt-4 text-center text-sm font-medium text-white bg-purple-900/30 p-2 rounded-md border border-purple-300/30">
+          You have marked your attendance on <span className="font-bold">{attendanceDays.length}</span> day
+          {attendanceDays.length !== 1 ? "s" : ""}.
         </div>
       )}
     </div>

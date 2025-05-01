@@ -52,25 +52,25 @@ export function WalletConnect() {
 
   return (
     <>
-      <Card className="w-full backdrop-blur-sm bg-white/40 border border-white/50">
-        <CardHeader>
-          <CardTitle className="text-gray-800">Connect Your Wallet</CardTitle>
-          <CardDescription className="text-gray-700">
+      <Card className="w-full backdrop-blur-md bg-white/20 border border-purple-300/50 shadow-lg">
+        <CardHeader className="bg-purple-900/50 border-b border-purple-400/30">
+          <CardTitle className="text-white font-bold">Connect Your Wallet</CardTitle>
+          <CardDescription className="text-purple-100 font-medium">
             Connect your wallet to access the Gblend Daily Attendance app
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 pt-4">
           {isConnected ? (
             <div className="space-y-4">
-              <div className="p-4 bg-white/60 backdrop-blur-sm rounded-lg border border-white/50">
+              <div className="p-4 bg-purple-900/30 backdrop-blur-sm rounded-lg border border-purple-300/30 shadow-sm">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
-                    <div className="w-8 h-8 bg-gradient-to-r from-purple-400 to-blue-500 rounded-full mr-3 flex items-center justify-center">
+                    <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full mr-3 flex items-center justify-center">
                       <Wallet className="h-4 w-4 text-white" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-800">Connected Wallet</p>
-                      <p className="text-xs text-gray-700">
+                      <p className="text-sm font-bold text-white">Connected Wallet</p>
+                      <p className="text-xs font-medium text-purple-100">
                         {address?.slice(0, 6)}...{address?.slice(-4)}
                       </p>
                     </div>
@@ -79,35 +79,37 @@ export function WalletConnect() {
                     variant="outline"
                     size="sm"
                     onClick={handleDisconnect}
-                    className="bg-white/70 border-white/50"
+                    className="border-purple-300/50 bg-white/20 text-white font-medium hover:bg-white/30"
                   >
-                    <span className="text-gray-800">Disconnect</span>
+                    Disconnect
                   </Button>
                 </div>
               </div>
 
               {!isCorrectNetwork && (
-                <div className="p-4 bg-amber-50/80 backdrop-blur-sm text-amber-800 rounded-lg border border-amber-200/50">
-                  <h3 className="text-sm font-medium">Wrong Network</h3>
-                  <p className="text-xs mt-1 mb-2">Please switch to Fluent Devnet to continue</p>
+                <div className="p-4 bg-purple-900/30 backdrop-blur-sm text-white rounded-lg border border-purple-300/30 shadow-sm">
+                  <h3 className="text-sm font-bold">Wrong Network</h3>
+                  <p className="text-xs font-medium mt-1 mb-2">Please switch to Fluent Devnet to continue</p>
                   <Button
                     size="sm"
                     variant="outline"
-                    className="w-full border-amber-200 bg-white/50"
+                    className="w-full border-purple-300/50 bg-white/20 text-white font-medium"
                     onClick={switchNetwork}
                   >
-                    <span className="text-amber-800">Switch to Fluent Devnet</span>
+                    Switch to Fluent Devnet
                   </Button>
                 </div>
               )}
 
               {isCorrectNetwork && (
                 <div className="space-y-4">
-                  <div className="p-3 bg-white/60 backdrop-blur-sm rounded-md border border-white/50">
-                    <p className="text-sm font-medium text-gray-800">Your Balance:</p>
-                    <p className={`text-sm ${hasBalance ? "text-green-600" : "text-red-600"}`}>{balance} ETH</p>
+                  <div className="p-3 bg-purple-900/30 backdrop-blur-sm rounded-md border border-purple-300/30 shadow-sm">
+                    <p className="text-sm font-bold text-white">Your Balance:</p>
+                    <p className={`text-sm font-medium ${hasBalance ? "text-green-300" : "text-red-300"}`}>
+                      {balance} ETH
+                    </p>
                     {!hasBalance && (
-                      <p className="text-xs text-red-500 mt-1">
+                      <p className="text-xs font-medium text-red-300 mt-1">
                         You need tokens to pay for gas fees. Please get tokens from the faucet.
                       </p>
                     )}
@@ -116,12 +118,12 @@ export function WalletConnect() {
                   <div className="text-center">
                     {checkingNFT ? (
                       <div className="flex items-center justify-center space-x-2">
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                        <span className="text-sm text-gray-800">Checking NFT status...</span>
+                        <Loader2 className="h-4 w-4 animate-spin text-purple-300" />
+                        <span className="text-sm font-medium text-white">Checking NFT status...</span>
                       </div>
                     ) : (
                       <Button
-                        className="w-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600"
+                        className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold shadow-md"
                         onClick={handleContinue}
                       >
                         {hasRequiredNFT ? "Go to Attendance" : "Claim NFT"}
@@ -134,29 +136,29 @@ export function WalletConnect() {
           ) : (
             <div className="space-y-4">
               <div className="p-6 text-center">
-                <div className="w-16 h-16 mx-auto bg-gradient-to-r from-purple-400 to-blue-500 rounded-full flex items-center justify-center mb-4">
+                <div className="w-16 h-16 mx-auto bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center mb-4 shadow-md">
                   <Wallet className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-lg font-medium text-gray-800">Connect Your Wallet</h3>
-                <p className="text-sm text-gray-700 mt-1 mb-4">
+                <h3 className="text-lg font-bold text-white">Connect Your Wallet</h3>
+                <p className="text-sm font-medium text-purple-100 mt-1 mb-4">
                   Connect your wallet to access the Gblend Daily Attendance app
                 </p>
                 <Button
-                  className="w-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600"
+                  className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold shadow-md"
                   onClick={handleConnect}
                 >
                   Connect Wallet
                 </Button>
               </div>
 
-              <div className="text-xs text-center text-gray-700">
+              <div className="text-xs text-center text-purple-100 font-medium">
                 <p>
                   Don't have a wallet?{" "}
                   <a
                     href="https://metamask.io/download/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-500 hover:underline inline-flex items-center"
+                    className="text-pink-300 font-bold hover:underline inline-flex items-center"
                   >
                     Get MetaMask <ExternalLink className="h-3 w-3 ml-0.5" />
                   </a>
@@ -167,11 +169,11 @@ export function WalletConnect() {
         </CardContent>
       </Card>
 
-      <div className="mt-8 p-6 bg-white/30 backdrop-blur-sm rounded-lg border border-white/50">
-        <h3 className="text-lg font-medium mb-4 text-gray-800">How it works:</h3>
-        <ol className="list-decimal list-inside space-y-3 text-sm text-gray-800">
+      <div className="mt-8 p-6 bg-white/20 backdrop-blur-md rounded-lg border border-purple-300/50 shadow-lg">
+        <h3 className="text-lg font-bold mb-4 text-white">How it works:</h3>
+        <ol className="list-decimal list-inside space-y-3 text-sm font-medium text-purple-100">
           <li>Connect your wallet</li>
-          <li className="font-medium text-blue-600 dark:text-blue-400">
+          <li className="font-bold text-pink-300">
             Claim faucet at{" "}
             <a
               href="https://faucet.dev.gblend.xyz/"
@@ -181,7 +183,7 @@ export function WalletConnect() {
             >
               https://faucet.dev.gblend.xyz/ <ExternalLink className="h-3 w-3 ml-0.5" />
             </a>
-            <div className="block text-xs mt-1 font-normal text-blue-500 bg-blue-50/70 backdrop-blur-sm p-2 rounded-md border border-blue-100/50">
+            <div className="block text-xs mt-1 font-medium text-pink-300 bg-purple-900/30 backdrop-blur-sm p-2 rounded-md border border-purple-300/30 shadow-sm">
               ⚠️ <strong>IMPORTANT:</strong> You MUST have tokens to pay for gas fees! After requesting from the faucet,
               wait for the transaction to complete and tokens to appear in your wallet.
             </div>
