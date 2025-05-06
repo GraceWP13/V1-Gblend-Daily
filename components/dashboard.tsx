@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { CalendarDays, CheckCircle, Flame } from "lucide-react"
+import { CalendarDays, CheckCircle, Flame, Trophy, Coins } from "lucide-react"
+import { getWalletData } from "@/lib/wallet-storage"
 
 interface DashboardProps {
   address: string
@@ -12,6 +13,8 @@ export function Dashboard({ address }: DashboardProps) {
   const [attendanceCount, setAttendanceCount] = useState(0)
   const [currentStreak, setCurrentStreak] = useState(0)
   const [quizCount, setQuizCount] = useState(0)
+  const [gameHighScore, setGameHighScore] = useState(0)
+  const [totalCoins, setTotalCoins] = useState(0)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -87,6 +90,13 @@ export function Dashboard({ address }: DashboardProps) {
 
         // Count quiz answers (same as attendance for now since quiz is required for attendance)
         setQuizCount(attendanceDays.length)
+
+        // Load game stats from wallet-specific localStorage
+        const savedHighScore = getWalletData(address, "tectraRunnerHighScore", 0)
+        const savedTotalCoins = getWalletData(address, "tectraRunnerTotalCoins", 0)
+
+        setGameHighScore(savedHighScore)
+        setTotalCoins(savedTotalCoins)
       } catch (error) {
         console.error("Error loading stats:", error)
       } finally {
@@ -98,7 +108,7 @@ export function Dashboard({ address }: DashboardProps) {
   }, [address])
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 mb-6">
       <Card className="backdrop-blur-md bg-white/20 border border-purple-300/50 shadow-lg">
         <CardHeader className="pb-2">
           <CardTitle className="text-white flex items-center gap-2">
@@ -111,8 +121,9 @@ export function Dashboard({ address }: DashboardProps) {
           {loading ? (
             <div className="h-12 animate-pulse bg-purple-300/20 rounded-md"></div>
           ) : (
-            <div className="text-3xl font-bold text-white">
-              {attendanceCount} <span className="text-sm text-purple-200">days</span>
+            <div className="text-2xl md:text-3xl font-bold text-white flex items-baseline gap-1">
+              {attendanceCount}
+              <span className="text-xs md:text-sm text-purple-200">days</span>
             </div>
           )}
         </CardContent>
@@ -130,8 +141,8 @@ export function Dashboard({ address }: DashboardProps) {
           {loading ? (
             <div className="h-12 animate-pulse bg-purple-300/20 rounded-md"></div>
           ) : (
-            <div className="text-3xl font-bold text-white">
-              {currentStreak} <span className="text-sm text-purple-200">days</span>
+            <div className="text-2xl md:text-3xl font-bold text-white flex items-baseline gap-1">
+              {currentStreak} <span className="text-xs md:text-sm text-purple-200">days</span>
             </div>
           )}
         </CardContent>
@@ -149,8 +160,46 @@ export function Dashboard({ address }: DashboardProps) {
           {loading ? (
             <div className="h-12 animate-pulse bg-purple-300/20 rounded-md"></div>
           ) : (
-            <div className="text-3xl font-bold text-white">
-              {quizCount} <span className="text-sm text-purple-200">quizzes</span>
+            <div className="text-2xl md:text-3xl font-bold text-white flex items-baseline gap-1">
+              {quizCount} <span className="text-xs md:text-sm text-purple-200">quizzes</span>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card className="backdrop-blur-md bg-white/20 border border-purple-300/50 shadow-lg">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-white flex items-center gap-2">
+            <Trophy className="h-5 w-5 text-yellow-300" />
+            <span>Game High Score</span>
+          </CardTitle>
+          <CardDescription className="text-purple-100">Tectra Runner best score</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {loading ? (
+            <div className="h-12 animate-pulse bg-purple-300/20 rounded-md"></div>
+          ) : (
+            <div className="text-2xl md:text-3xl font-bold text-white flex items-baseline gap-1">
+              {gameHighScore} <span className="text-xs md:text-sm text-purple-200">points</span>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card className="backdrop-blur-md bg-white/20 border border-purple-300/50 shadow-lg">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-white flex items-center gap-2">
+            <Coins className="h-5 w-5 text-yellow-300" />
+            <span>Coins Collected</span>
+          </CardTitle>
+          <CardDescription className="text-purple-100">Total coins collected</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {loading ? (
+            <div className="h-12 animate-pulse bg-purple-300/20 rounded-md"></div>
+          ) : (
+            <div className="text-2xl md:text-3xl font-bold text-white flex items-baseline gap-1">
+              {totalCoins} <span className="text-xs md:text-sm text-purple-200">coins</span>
             </div>
           )}
         </CardContent>

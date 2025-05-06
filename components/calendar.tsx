@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { getWalletKeys } from "@/lib/wallet-storage"
 
 interface CalendarProps {
   address: string
@@ -35,24 +36,36 @@ export function Calendar({ address }: CalendarProps) {
       if (!address) return
 
       setLoading(true)
-      const days: string[] = []
-      const prefix = `gblend-attendance-${address}-`
 
-      // Get all localStorage keys
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i)
-        if (key && key.startsWith(prefix) && !key.endsWith("-last-marked")) {
-          const dateStr = key.replace(prefix, "")
-          // Validate that it's a proper date format (YYYY-MM-DD)
-          if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
-            days.push(dateStr)
+      try {
+        // Get all attendance days from wallet storage
+        const attendanceKeys = getWalletKeys(address, "attendance-")
+        const days = attendanceKeys.map((key) => key.replace("attendance-", ""))
+
+        // Also check legacy storage format
+        const legacyPrefix = `gblend-attendance-${address}-`
+        try {
+          for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i)
+            if (key && key.startsWith(legacyPrefix) && !key.endsWith("-last-marked")) {
+              const dateStr = key.replace(legacyPrefix, "")
+              // Validate that it's a proper date format (YYYY-MM-DD)
+              if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr) && !days.includes(dateStr)) {
+                days.push(dateStr)
+              }
+            }
           }
+        } catch (e) {
+          console.log("Error accessing legacy storage:", e)
         }
-      }
 
-      console.log("Loaded attendance days:", days)
-      setAttendanceDays(days)
-      setLoading(false)
+        console.log("Loaded attendance days:", days)
+        setAttendanceDays(days)
+      } catch (error) {
+        console.error("Error loading attendance:", error)
+      } finally {
+        setLoading(false)
+      }
     }
 
     loadAttendance()
@@ -106,19 +119,23 @@ export function Calendar({ address }: CalendarProps) {
         <div
           key={day}
           className={cn(
-            "h-12 border rounded-md flex items-center justify-center relative",
+            "h-9 sm:h-12 border rounded-md flex items-center justify-center relative",
             isToday ? "border-pink-500 shadow-md" : "border-purple-300/50",
             isMarked ? "bg-gradient-to-r from-purple-600 to-pink-600 backdrop-blur-sm" : "bg-white/20 backdrop-blur-sm",
           )}
         >
           <span
-            className={cn("text-sm font-bold", isMarked ? "text-white" : "text-white", isToday ? "text-white" : "")}
+            className={cn(
+              "text-xs sm:text-sm font-bold",
+              isMarked ? "text-white" : "text-white",
+              isToday ? "text-white" : "",
+            )}
           >
             {day}
           </span>
           {isMarked && (
-            <div className="absolute bottom-1 right-1">
-              <span className="text-sm">🎨</span>
+            <div className="absolute bottom-0.5 right-0.5 sm:bottom-1 sm:right-1">
+              <span className="text-xs sm:text-sm">🎨</span>
             </div>
           )}
         </div>,
@@ -180,7 +197,7 @@ export function Calendar({ address }: CalendarProps) {
       {loading ? (
         <div className="py-8 text-center text-white font-bold">Loading your attendance history...</div>
       ) : (
-        <div className="grid grid-cols-7 gap-2">{renderCalendar()}</div>
+        <div className="grid grid-cols-7 gap-1 sm:gap-2">{renderCalendar()}</div>
       )}
 
       {attendanceDays.length > 0 && (

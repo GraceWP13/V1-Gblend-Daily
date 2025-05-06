@@ -4,6 +4,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Web3Provider } from "@/components/web3-provider"
+import { WalletDataMigrator } from "@/components/wallet-data-migrator"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -20,6 +21,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <meta name="theme-color" content="#4B0082" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+      </head>
       <body className={`${inter.className}`}>
         {/* Purple gradient background */}
         <div
@@ -31,7 +38,10 @@ export default function RootLayout({
         {/* Simple overlay for better text visibility */}
         <div className="fixed inset-0 bg-black/10 z-0" />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <Web3Provider>{children}</Web3Provider>
+          <Web3Provider>
+            <WalletDataMigrator />
+            {children}
+          </Web3Provider>
         </ThemeProvider>
       </body>
     </html>

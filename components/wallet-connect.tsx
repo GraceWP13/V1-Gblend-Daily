@@ -63,7 +63,7 @@ export function WalletConnect() {
           {isConnected ? (
             <div className="space-y-4">
               <div className="p-4 bg-purple-900/30 backdrop-blur-sm rounded-lg border border-purple-300/30 shadow-sm">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0">
                   <div className="flex items-center">
                     <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full mr-3 flex items-center justify-center">
                       <Wallet className="h-4 w-4 text-white" />
@@ -169,9 +169,9 @@ export function WalletConnect() {
         </CardContent>
       </Card>
 
-      <div className="mt-8 p-6 bg-white/20 backdrop-blur-md rounded-lg border border-purple-300/50 shadow-lg">
-        <h3 className="text-lg font-bold mb-4 text-white">How it works:</h3>
-        <ol className="list-decimal list-inside space-y-3 text-sm font-medium text-purple-100">
+      <div className="mt-5 sm:mt-8 p-4 sm:p-6 bg-white/20 backdrop-blur-md rounded-lg border border-purple-300/50 shadow-lg">
+        <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4 text-white">How it works:</h3>
+        <ol className="list-decimal list-inside space-y-2 sm:space-y-3 text-xs sm:text-sm font-medium text-purple-100">
           <li>Connect your wallet</li>
           <li className="font-bold text-pink-300">
             Claim faucet at{" "}

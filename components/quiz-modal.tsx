@@ -6,12 +6,15 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { quizQuestions } from "@/lib/quiz-data"
+import { useAccount } from "@/hooks/use-account"
+import { setWalletData } from "@/lib/wallet-storage"
 
 interface QuizModalProps {
   onComplete: (success: boolean) => void
 }
 
 export function QuizModal({ onComplete }: QuizModalProps) {
+  const { address } = useAccount()
   const [selectedQuestion] = useState(() => {
     // Randomly select one of the 5 questions
     const randomIndex = Math.floor(Math.random() * quizQuestions.length)
@@ -30,6 +33,22 @@ export function QuizModal({ onComplete }: QuizModalProps) {
     setIsSubmitted(true)
 
     if (correct) {
+      // Mark attendance in wallet storage
+      if (address) {
+        // Get today's date in UTC format YYYY-MM-DD
+        const now = new Date()
+        const today = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, "0")}-${String(now.getUTCDate()).padStart(2, "0")}`
+
+        // Store in both formats for backward compatibility
+        setWalletData(address, `attendance-${today}`, true)
+        try {
+          localStorage.setItem(`gblend-attendance-${address}-${today}`, "true")
+          localStorage.setItem(`gblend-attendance-${address}-last-marked`, today)
+        } catch (e) {
+          console.log("Could not set legacy attendance data:", e)
+        }
+      }
+
       // Delay closing the modal to show the success message
       setTimeout(() => {
         onComplete(true)
@@ -44,8 +63,8 @@ export function QuizModal({ onComplete }: QuizModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-md backdrop-blur-md bg-white/20 border border-purple-300/50 shadow-lg">
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-2 sm:p-4">
+      <Card className="w-full max-w-md max-h-[90vh] overflow-auto backdrop-blur-md bg-white/20 border border-purple-300/50 shadow-lg">
         <CardHeader className="bg-purple-900/50 border-b border-purple-400/30">
           <CardTitle className="text-white font-bold">Daily Quiz</CardTitle>
           <CardDescription className="text-purple-100 font-medium">
@@ -67,7 +86,7 @@ export function QuizModal({ onComplete }: QuizModalProps) {
               {selectedQuestion.options.map((option, index) => (
                 <div
                   key={index}
-                  className="flex items-center space-x-2 bg-white/20 p-2 rounded-md border border-purple-300/30"
+                  className="flex items-center space-x-2 bg-white/20 p-3 rounded-md border border-purple-300/30"
                 >
                   <RadioGroupItem
                     value={option}
@@ -95,24 +114,24 @@ export function QuizModal({ onComplete }: QuizModalProps) {
             )}
           </div>
         </CardContent>
-        <CardFooter className="flex justify-between bg-purple-900/30 border-t border-purple-300/30">
+        <CardFooter className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-0 bg-purple-900/30 border-t border-purple-300/30">
           <Button
             variant="outline"
             onClick={() => onComplete(false)}
-            className="bg-white/20 border-purple-300/50 text-white font-medium hover:bg-white/30 shadow-sm"
+            className="w-full sm:w-auto bg-white/20 border-purple-300/50 text-white font-medium hover:bg-white/30 shadow-sm"
           >
             Cancel
           </Button>
           <Button
             onClick={handleSubmit}
             disabled={!selectedAnswer || isSubmitted}
-            className={
+            className={`w-full sm:w-auto ${
               isSubmitted
                 ? isCorrect
                   ? "bg-green-600 hover:bg-green-700 text-white font-bold shadow-md"
                   : "bg-red-600 hover:bg-red-700 text-white font-bold shadow-md"
                 : "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold shadow-md"
-            }
+            }`}
           >
             Submit Answer
           </Button>

@@ -11,6 +11,7 @@ import { QuizModal } from "@/components/quiz-modal"
 import { Button } from "@/components/ui/button"
 import { SocialLinks } from "@/components/social-links"
 import { hasNFT } from "@/lib/contract"
+import { getWalletData } from "@/lib/wallet-storage"
 
 export default function AttendancePage() {
   const router = useRouter()
@@ -52,10 +53,19 @@ export default function AttendancePage() {
     if (!address) return
 
     const today = getTodayUTC()
-    const lastMarked = localStorage.getItem(`gblend-attendance-${address}-last-marked`)
-    const todayMarked = localStorage.getItem(`gblend-attendance-${address}-${today}`)
 
-    setCanMarkToday(!todayMarked && lastMarked !== today)
+    // Check if today is already marked in wallet storage
+    const todayMarked = getWalletData(address, `attendance-${today}`, false)
+
+    // Also check legacy storage format
+    let legacyMarked = false
+    try {
+      legacyMarked = localStorage.getItem(`gblend-attendance-${address}-${today}`) !== null
+    } catch (e) {
+      console.log("Error checking legacy storage:", e)
+    }
+
+    setCanMarkToday(!todayMarked && !legacyMarked)
   }, [address])
 
   if (loading) {
@@ -84,11 +94,7 @@ export default function AttendancePage() {
   const handleQuizComplete = (success: boolean) => {
     setShowQuiz(false)
     if (success) {
-      const today = getTodayUTC()
-      localStorage.setItem(`gblend-attendance-${address}-${today}`, "true")
-      localStorage.setItem(`gblend-attendance-${address}-last-marked`, today)
       setCanMarkToday(false)
-
       // Force refresh to update calendar
       window.location.reload()
     }
